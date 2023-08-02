@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 .updateDate {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
 }
 .updateDate p {
     color: white;
