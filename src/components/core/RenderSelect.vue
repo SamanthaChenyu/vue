@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 
 export default {
     props: {
@@ -13,7 +13,9 @@ export default {
         }
     },
     setup(props, context) {
-        console.log(context.emit)
+        const proxy = getCurrentInstance()
+        console.log(context.emit, proxy)
+        // 要這樣才能拿到vue2的this
         const value = ref("")
         return {
             value
@@ -25,20 +27,16 @@ export default {
 </script>
 
 <template>
-    <div class="forms">
         <select v-model="value" class="customSelect">
             <option disabled value="">{{ selectedDefault }}</option>
             <option v-for="item in selectedOption" v-bind="item">
                 {{ item?.text }}
             </option>
         </select>
-    </div>
 </template>
 
 <style lang="scss" scoped>
-.forms {
-    width: 1280px;
-    .customSelect {
+.customSelect {
     appearance:none;
     -moz-appearance:none;
     -webkit-appearance:none;
@@ -59,7 +57,6 @@ export default {
     &:focus-visible {
         outline: none;
     }
-}
 }
 </style>
 
