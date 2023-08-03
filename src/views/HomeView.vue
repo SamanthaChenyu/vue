@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import AreaForm from '../components/AreaForm.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <AreaForm />
   </main>
 </template>

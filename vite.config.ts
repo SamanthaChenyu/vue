@@ -10,7 +10,13 @@ const projectRootDir = resolve(__dirname);
 export default defineConfig({
   plugins: [
     alias(),
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['custom'].includes(tag),
+        }
+      }
+    })
   ],
   resolve: {
     alias: {
