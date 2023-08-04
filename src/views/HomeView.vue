@@ -1,5 +1,11 @@
-<script setup lang="ts">
+<script lang="ts">
 import AreaForm from '../components/AreaForm.vue'
+
+export default {
+  components: {
+    AreaForm
+  }
+}
 </script>
 
 <template>

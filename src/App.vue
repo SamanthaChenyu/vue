@@ -6,10 +6,10 @@ import Until from './components/Until.vue'
 
 <template>
   <header>
-      <Title msg="新北市各類戶籍登記人數統計" />
+      <Title msg="111111" />
       <nav>
-        <RouterLink to="/">Vue 2.0</RouterLink>
-        <RouterLink to="/third">Vue 3.0</RouterLink>
+        <RouterLink to="/">test0</RouterLink>
+        <RouterLink to="/third">test1</RouterLink>
       </nav>
       <Until />
   </header>
