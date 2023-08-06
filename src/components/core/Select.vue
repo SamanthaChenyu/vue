@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>子層value {{ value }}</div>
+        <div>子層modelValue {{ modelValue }}</div>
         <div>子層selected {{ selected }}</div>
         <select v-model="selected" @change="handleSelectChange" class="customSelect">
             <option v-for="item in options" :key="item.value" :value="item.value">
@@ -11,21 +11,24 @@
 </template>
 
 <script lang="ts">
+import { reactive } from 'vue'
+
 export default {
     props: {
         options: {
-            type: Array<{ label: string, value: number | string}>,
+            type: Array<{ label: string, value: number | string }>,
             required: true
         },
-        value: Object
+        modelValue: Object
     },
-    data() {
+    setup() {
+        const selected = reactive({}) // 偵測資料變動
         return {
-            selected: {}
+            selected
         }
     },
     watch: {
-        value() {
+        modelValue() {
             this.updateSelected();
         }
     },
@@ -34,13 +37,14 @@ export default {
             const target = this.options.find((option) => {
                 return String(option.value) === (e.target as HTMLInputElement).value;
             });
-            this.$emit("input", target);
+            this.$emit("update:modelValue", target);
+            // 從 options[] 找到 current object，將 modelValue 設置為 current object
         },
         updateSelected() {
-            this.selected = this.value?.value // 將子層的 v-model 設置成父層傳進來的 v-model 值
+            this.selected = this.modelValue?.value // 將子層的 v-model 設置成父層傳進來的 v-model 值
         }
     },
-    mounted() {
+    mounted() { //  實例掛載到 DOM 節點後(mounted)，可以執行與 DOM 有關的操作
         this.updateSelected()
     }
     
