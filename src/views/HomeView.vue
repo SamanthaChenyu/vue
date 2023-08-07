@@ -1,15 +1,15 @@
 <script lang="ts">
-import AreaForm from '../components/AreaForm.vue'
+import Form from '../components/Form.vue'
 
 export default {
   components: {
-    AreaForm
+    Form
   }
 }
 </script>
 
 <template>
-  <main>
-    <AreaForm />
-  </main>
+  <div>
+    <Form />
+  </div>
 </template>

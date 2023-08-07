@@ -53,7 +53,17 @@ nav a:first-of-type {
 
 .routerView {
   margin-top: 72px;
+  min-width: 1280px;
+  width: 100%;
 }
+
+@media (max-width: 1280px) { 
+  .routerView {
+    margin-top: 72px;
+    min-width: 100%;
+  }
+}
+
 
 @media (min-width: 1024px) {
   header {

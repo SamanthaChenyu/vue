@@ -1,13 +1,18 @@
 <template>
-    <div>
-        <div>子層modelValue {{ modelValue }}</div>
-        <div>子層selected {{ selected }}</div>
+    <div class="customSelectOut">
+        <div class="arrow" />
         <select v-model="selected" @change="handleSelectChange" class="customSelect">
             <option v-for="item in options" :key="item.value" :value="item.value">
                 {{ item?.label }}
             </option>
         </select>
     </div>
+
+        <!-- 
+            debug: 
+            <div>子層modelValue {{ modelValue }}</div>
+            <div>子層selected {{ selected }}</div> 
+        -->
 </template>
 
 <script lang="ts">
@@ -52,27 +57,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.customSelect {
-    appearance:none;
-    -moz-appearance:none;
-    -webkit-appearance:none;
-
+.customSelectOut {
     position: relative;
-    color: black;
-    line-height: 1.25rem;
-    font-weight: 600;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    align-items: center;
-    display: flex;
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
-    border: 0 solid #e5e7eb;
-    &:focus {
-        box-shadow: 0 0 5px 2px rgba(0, 178, 119, 0.6);   
-    }
-    &:focus-visible {
-        outline: none;
-    }
+    width: 190px;
+    .customSelect {
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+
+        cursor: pointer;
+        color: black;
+        line-height: 1.25rem;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        align-items: center;
+        width: 100%;
+        display: flex;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+        border: 0 solid #e5e7eb;
+        &:focus {
+            box-shadow: 0 0 5px 2px rgba(0, 178, 119, 0.6);   
+        }
+        &:focus-visible {
+            outline: none;
+        }
+    }   
+    .arrow {
+        position: absolute;
+
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid rgba(0, 178, 119, 0.6);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
+    } 
 }
+@media (max-width: 1280px) { 
+    .customSelectOut {
+        width: 100%;
+    }
+ }
 </style>
 
