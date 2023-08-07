@@ -39,11 +39,7 @@ export async function post(url, params, options = {}) {
   try {
     const data = options.type === 'form-data' ? getFromData(params) : params
     const res = await axiosInstance.post(url, data)
-    return handleRes({
-      type: 'post',
-      url,
-      data: res.data
-    })
+    return res.data
   } catch (err) {
     err.message = '网路异常'
     return err
@@ -53,11 +49,7 @@ export async function post(url, params, options = {}) {
 export async function get(url, params, options = {}) {
   try {
     const res = await axiosInstance.get(url, { params })
-    return handleRes({
-      type: 'get',
-      url,
-      data: res.data
-    })
+    return res.data
   } catch (err) {
     err.message = '网路异常'
     return err
@@ -67,11 +59,7 @@ export async function get(url, params, options = {}) {
 export async function _delete(url, params, options = {}) {
   try {
     const res = await axiosInstance.delete(url)
-    return handleRes({
-      type: 'delete',
-      url,
-      data: res.data
-    })
+    return res.data
   } catch (err) {
     console.log(err)
     err.message = '网路异常'
