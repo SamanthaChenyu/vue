@@ -7,9 +7,9 @@
     </div>
   </div>
     
-  <div>
+  <!-- <div>
     {{ reactiveData }}
-  </div>
+  </div> -->
     <!-- debug: 
     <div>父層selected {{ areaSelected }}</div> -->
 

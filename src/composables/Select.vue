@@ -85,7 +85,7 @@ export default {
     }   
     .arrow {
         position: absolute;
-
+        pointer-events: none;
         width: 0px;
         height: 0px;
         border-top: 10px solid rgba(0, 178, 119, 0.6);
