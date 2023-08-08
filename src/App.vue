@@ -6,19 +6,19 @@ import Until from './components/Until.vue'
 
 <template>
   <header>
-      <Title msg="111111" />
+      <Title />
       <nav>
-        <RouterLink to="/">test0</RouterLink>
-        <RouterLink to="/third">test1</RouterLink>
+        <RouterLink to="/">男女分佈</RouterLink>
+        <RouterLink to="/third">測試</RouterLink>
       </nav>
       <Until />
   </header>
   <div class="routerView">
-  <RouterView />
+    <RouterView />
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 header {
   position: absolute;
@@ -27,10 +27,12 @@ header {
 }
 
 nav {
-  font-size: 12px;
   text-align: left;
   display: flex;
   align-items: center;
+  a {
+    font-size: 12px;
+  }
 }
 
 nav a.router-link-exact-active {

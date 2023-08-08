@@ -21,7 +21,7 @@ import { reactive } from 'vue'
 export default {
     props: {
         options: {
-            type: Array<{ label: string, value: number | string }>,
+            type: Array<{ label: string, value: any }>,
             required: true
         },
         modelValue: Object

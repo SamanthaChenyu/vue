@@ -3,7 +3,7 @@
     <span class="space">區域</span>
     <Select v-model="areaSelected" :options="areaOptions" />
     <div class="buttonOutter">
-      <Button innerText="搜尋" />
+      <Button innerText="搜尋" @click="handleClick" />
     </div>
   </div>
     
@@ -38,23 +38,30 @@ export default {
       reactiveData
     }
   },
-  methods: {
-    async init() {
-      const res = await this.getData(100);
-      console.log(res)
-      this.areaOptions = [
-        { label: 'all', value: 0 },
-        { label: 'A', value: 1 },
-        { label: 'B', value: 2 },
-        { label: 'C', value: 3 }
-      ] as never[]
-      this.areaSelected = this.areaOptions[0] // 設置預設值
-      this.reactiveData = res
-    }
-  },
   mounted() {
     //  實例掛載到 DOM 節點後(mounted)，可以執行與 DOM 有關的操作
     this.init()
+  },  
+  methods: {
+    async init() {
+      const res = await this.getData(100);
+      const area = res && res.filter((item) => item.district !== '')?.map((item, index) => {
+        return {
+          label: item?.district,
+          value: index,
+          male: item?.male,
+          female: item?.female,
+          total: item?.total
+        }
+      });
+      this.areaOptions = area as never[]
+      this.areaSelected = this.areaOptions[0] // 設置預設值
+      this.reactiveData = res
+    },
+    handleClick() {
+      const currentArea = this.areaOptions.find((item) => item === this.areaSelected)
+      this.reactiveData = currentArea
+    }    
   }
 }
 </script>
