@@ -10,6 +10,7 @@
   <!-- <div>
     {{ reactiveData }}
   </div> -->
+
     <!-- debug: 
     <div>父層selected {{ areaSelected }}</div> -->
 
@@ -19,22 +20,23 @@
 import { reactive } from 'vue'
 import Button from '../composables/Button.vue'
 import Select from '../composables/Select.vue'
-import * as apiService from '@/services/apiService.js'
 
 export default {
   components: {
     Select,
     Button
   },
+  props: {
+    formReceiveData: {
+      type: Array<{}>,
+      required: true
+    },
+  },
   data() {
-    const getData = (size: number) => {
-      return apiService.get(`/292443d2-faef-452c-96cd-33053e7369b6/json?size=${size}`)
-    }
-    const reactiveData = reactive({})
+    const reactiveData = reactive({}) // 搜尋特定區
     return {
       areaSelected: {},
       areaOptions: [],
-      getData,
       reactiveData
     }
   },
@@ -44,19 +46,9 @@ export default {
   },  
   methods: {
     async init() {
-      const res = await this.getData(100);
-      const area = res && res.filter((item) => item.district !== '')?.map((item, index) => {
-        return {
-          label: item?.district,
-          value: index,
-          male: item?.male,
-          female: item?.female,
-          total: item?.total
-        }
-      });
-      this.areaOptions = area as never[]
+      this.areaOptions = this.formReceiveData as never[]
       this.areaSelected = this.areaOptions[0] // 設置預設值
-      this.reactiveData = res
+      this.reactiveData = this.formReceiveData
     },
     handleClick() {
       const currentArea = this.areaOptions.find((item) => item === this.areaSelected)

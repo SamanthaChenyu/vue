@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <Form />
+  <div v-if="fetchData.length > 0">
+    <!-- TODO: Vux 兄弟 components 傳值 -->
+    <Form  :formReceiveData="fetchData" />
     <Table :tableData="fetchData" />
   </div>
 </template>
