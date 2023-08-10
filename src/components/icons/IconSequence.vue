@@ -1,10 +1,10 @@
 <template>
   <svg
-    version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     width="10"
     height="10"
     viewBox="0 0 401.998 401.998"
+    fill="currentColor"
   >
     <g>
       <g>

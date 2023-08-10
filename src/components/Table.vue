@@ -53,6 +53,7 @@
 </template>
 
 <script lang="ts">
+import { useStore } from 'vuex'
 import IconSequence from './icons/IconSequence.vue'
 import { ref, reactive } from 'vue'
 
@@ -76,6 +77,7 @@ export default {
     }
   },
   data() {
+    
     const isUpDown = ref(lower)
     const columnNames = {
       male: 'male',
@@ -88,7 +90,8 @@ export default {
       isUpDown,
       isColumnOrder,
       sortTableData,
-      columnNames
+      columnNames,
+
     }
   },
   mounted() {

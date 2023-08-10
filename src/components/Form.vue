@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
 import Button from '../composables/Button.vue'
 import Select from '../composables/Select.vue'
 
@@ -33,11 +34,18 @@ export default {
     },
   },
   data() {
+    const store = useStore();
+    const updateCurrentArea = (currentArea) => {
+      store.dispatch('setCurrentArea', currentArea);
+    };
+
     const reactiveData = reactive({}) // 搜尋特定區
+
     return {
       areaSelected: {},
       areaOptions: [],
-      reactiveData
+      reactiveData,
+      updateCurrentArea
     }
   },
   mounted() {
@@ -52,7 +60,7 @@ export default {
     },
     handleClick() {
       const currentArea = this.areaOptions.find((item) => item === this.areaSelected)
-      this.reactiveData = currentArea
+      this.updateCurrentArea(currentArea)
     }    
   }
 }
