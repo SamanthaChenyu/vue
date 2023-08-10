@@ -2,29 +2,42 @@
   <table class="table">
     <thead>
       <tr>
-        <th class="column" @click="handleClick('label')">
-          區域
-          <IconSequence 
-            v-if="isColumnOrder === 'label'" 
-            :up-down="isUpDown" />
-        </th>
-        <th class="column" @click="handleClick('male')">
+        <th class="column">區域</th>
+        <th
+          class="column"
+          @click="
+            () => {
+              handleClick(columnNames.male)
+              compare()
+            }
+          "
+        >
           男
-          <IconSequence 
-          v-if="isColumnOrder === 'male'" 
-          :up-down="isUpDown" />
+          <IconSequence v-if="isColumnOrder === columnNames.male" :up-down="isUpDown" />
         </th>
-        <th class="column" @click="handleClick('female')">
+        <th
+          class="column"
+          @click="
+            () => {
+              handleClick(columnNames.female)
+              compare()
+            }
+          "
+        >
           女
-          <IconSequence
-          v-if="isColumnOrder === 'female'"  
-          :up-down="isUpDown" />
+          <IconSequence v-if="isColumnOrder === columnNames.female" :up-down="isUpDown" />
         </th>
-        <th class="column" @click="handleClick('total')">
+        <th
+          class="column"
+          @click="
+            () => {
+              handleClick(columnNames.total)
+              compare()
+            }
+          "
+        >
           總計
-          <IconSequence 
-          v-if="isColumnOrder === 'total'" 
-          :up-down="isUpDown" />
+          <IconSequence v-if="isColumnOrder === columnNames.total" :up-down="isUpDown" />
         </th>
       </tr>
     </thead>
@@ -43,6 +56,9 @@
 import IconSequence from './icons/IconSequence.vue'
 import { ref, reactive } from 'vue'
 
+const raised = 'hiddenDown'
+const lower = 'hiddenUp'
+
 export default {
   components: {
     IconSequence
@@ -60,13 +76,19 @@ export default {
     }
   },
   data() {
-    const isUpDown = ref('hiddenUp')
-    const isColumnOrder = ref('total')
+    const isUpDown = ref(lower)
+    const columnNames = {
+      male: 'male',
+      female: 'female',
+      total: 'total'
+    }
+    const isColumnOrder = ref(columnNames.total)
     const sortTableData = reactive([]) // 排序
     return {
       isUpDown,
       isColumnOrder,
-      sortTableData
+      sortTableData,
+      columnNames
     }
   },
   mounted() {
@@ -75,14 +97,18 @@ export default {
   methods: {
     async init() {
       this.sortTableData = this.tableData
+      this.compare()
+    },
+    compare() {
+      if (this.isUpDown === lower) {
+        return this.sortTableData.sort((a, b) => a[this.isColumnOrder] - b[this.isColumnOrder])
+      }
+      return this.sortTableData.sort((a, b) => b[this.isColumnOrder] - a[this.isColumnOrder])
     },
     handleClick(columnName: string) {
-      this.isColumnOrder = columnName;
-      // TODO: sort columnName tableData
-      if (this.isUpDown === 'hiddenUp') {
-        return (this.isUpDown = 'hiddenDown')
-      }
-      return (this.isUpDown = 'hiddenUp')
+      this.isColumnOrder = columnName
+      const currentIsUpDown = this.isUpDown === raised ? lower : raised
+      this.isUpDown = currentIsUpDown
     }
   }
 }

@@ -1,15 +1,9 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Title from './components/Title.vue'
-import Until from './components/Until.vue'
-</script>
-
 <template>
   <header>
       <Title />
       <nav>
-        <RouterLink to="/">男女分佈</RouterLink>
-        <RouterLink to="/third">測試</RouterLink>
+        <RouterLink to="/">{{ routerName[0].name }}</RouterLink>
+        <RouterLink to="/third">{{ routerName[1].name }}</RouterLink>
       </nav>
       <Until />
   </header>
@@ -17,6 +11,27 @@ import Until from './components/Until.vue'
     <RouterView />
   </div>
 </template>
+
+<script lang="ts">
+import router from '@/router'; 
+import { RouterLink, RouterView } from 'vue-router'
+import Title from './components/Title.vue'
+import Until from './components/Until.vue'
+
+export default {
+  components: {
+    Title
+  },
+  data() {
+    const routerName =  router.options.routes
+    return {
+      routerName
+    }
+  }
+}
+
+
+</script>
 
 <style lang="scss" scoped>
 
