@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex'
+import { useStore, mapState } from 'vuex'
 import IconSequence from './icons/IconSequence.vue'
 import { ref, reactive } from 'vue'
 
@@ -77,7 +77,7 @@ export default {
     }
   },
   data() {
-    
+    const getCurrentArea = useStore().getters.getCurrentArea;
     const isUpDown = ref(lower)
     const columnNames = {
       male: 'male',
@@ -91,8 +91,16 @@ export default {
       isColumnOrder,
       sortTableData,
       columnNames,
-
+      getCurrentArea
     }
+  },
+  computed: {
+    ...mapState(['getCurrentArea']),
+  },
+  watch: {
+    getCurrentArea(newValue) {
+      console.log('dddd', newValue);
+    },
   },
   mounted() {
     this.init()

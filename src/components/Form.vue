@@ -60,7 +60,8 @@ export default {
     },
     handleClick() {
       const currentArea = this.areaOptions.find((item) => item === this.areaSelected)
-      this.updateCurrentArea(currentArea)
+      this.updateCurrentArea(currentArea);
+      console.log('點擊搜尋')
     }    
   }
 }
