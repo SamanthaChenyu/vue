@@ -5,11 +5,7 @@
         <th class="column">區域</th>
         <th
           class="column"
-          @click="
-            () => {
-              handleClick(columnNames.male)
-              compare()
-            }
+          @click="handleClick(columnNames.male)
           "
         >
           男
@@ -17,24 +13,14 @@
         </th>
         <th
           class="column"
-          @click="
-            () => {
-              handleClick(columnNames.female)
-              compare()
-            }
-          "
+          @click="handleClick(columnNames.female)"
         >
           女
           <IconSequence v-if="isColumnOrder === columnNames.female" :up-down="isUpDown" />
         </th>
         <th
           class="column"
-          @click="
-            () => {
-              handleClick(columnNames.total)
-              compare()
-            }
-          "
+          @click="handleClick(columnNames.total)"
         >
           總計
           <IconSequence v-if="isColumnOrder === columnNames.total" :up-down="isUpDown" />
@@ -53,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { useStore, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import IconSequence from './icons/IconSequence.vue'
 import { ref, reactive } from 'vue'
 
@@ -77,7 +63,6 @@ export default {
     }
   },
   data() {
-    const getCurrentArea = useStore().getters.getCurrentArea;
     const isUpDown = ref(lower)
     const columnNames = {
       male: 'male',
@@ -90,16 +75,15 @@ export default {
       isUpDown,
       isColumnOrder,
       sortTableData,
-      columnNames,
-      getCurrentArea
+      columnNames
     }
   },
   computed: {
-    ...mapState(['getCurrentArea']),
+    ...mapGetters(['getCurrentArea']),
   },
   watch: {
     getCurrentArea(newValue) {
-      console.log('dddd', newValue);
+      this.sortTableData = [newValue]
     },
   },
   mounted() {
@@ -120,6 +104,7 @@ export default {
       this.isColumnOrder = columnName
       const currentIsUpDown = this.isUpDown === raised ? lower : raised
       this.isUpDown = currentIsUpDown
+      this.compare()
     }
   }
 }
