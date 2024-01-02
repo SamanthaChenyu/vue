@@ -83,7 +83,7 @@ export default {
   },
   watch: {
     getCurrentArea(newValue) {
-      this.sortTableData = [newValue]
+      this.sortTableData = newValue
     },
   },
   mounted() {
