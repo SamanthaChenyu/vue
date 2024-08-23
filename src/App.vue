@@ -1,4 +1,7 @@
 <template>
+      <div class="adTop">
+      <AdTop />
+    </div>
   <header>
       <Title />
       <nav>
@@ -17,9 +20,11 @@ import router from '@/router';
 import { RouterLink, RouterView } from 'vue-router'
 import Title from './components/Title.vue'
 import Until from './components/Until.vue'
+import AdTop from '@/components/icons/AdTopImg.vue';
 
 export default {
   components: {
+    AdTop,
     Title
   },
   data() {
@@ -34,11 +39,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-header {
-  position: absolute;
-  top: 0;
-  z-index: 1;
+.adTop {
+  text-align: center;
 }
 
 nav {

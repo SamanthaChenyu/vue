@@ -1,24 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "strict": false,
     "paths": {
       "@/*": ["src/*"],
       "@COM/*": ["src/components/*"],
       "@hook/*": ["src/hook/*"],
+      "vuex": ["./node_modules/vuex/types"]
     }
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*"],
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.vitest.json"
-    }
-  ],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts", "src/vuex.d.ts"]
 }

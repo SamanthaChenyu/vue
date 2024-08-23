@@ -35,7 +35,7 @@ export default {
   },
   data() {
     const store = useStore();
-    const updateCurrentArea = (currentArea: string) => {
+    const updateCurrentArea = (currentArea: [{}]) => {
       store.dispatch('setCurrentArea', currentArea);
     };
 
@@ -43,7 +43,7 @@ export default {
 
     return {
       areaSelected: {},
-      areaOptions: [],
+      areaOptions: [{}] as Array<{ label: string, value: any }>,
       reactiveData,
       updateCurrentArea
     }
@@ -69,7 +69,7 @@ export default {
     handleClick() {
       const currentArea = this.formReceiveData.find((item) => item === this.areaSelected)
       if (currentArea) return this.updateCurrentArea([currentArea]);
-      this.updateCurrentArea(this.formReceiveData)
+      this.updateCurrentArea(this.formReceiveData as any)
       console.log('點擊搜尋', this.areaSelected)
     }    
   }
@@ -78,7 +78,6 @@ export default {
 
 <style lang="scss" scoped>
 .forms {
-  color: #fff;
   display: flex;
   .space {
     margin: 0px 16px 0px 16px;

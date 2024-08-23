@@ -3,10 +3,13 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "composite": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
+    "strict": false,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"],
+      "@COM/*": ["src/components/*"],
+      "@hook/*": ["src/hook/*"],
+      "vuex": ["./node_modules/vuex/types"]
     }
-  }
+  },
 }
