@@ -54,14 +54,23 @@ export default {
   },  
   methods: {
     async init() {
-      this.areaOptions = this.formReceiveData as never[]
+      this.areaOptions = [...this.formReceiveData];
+      // 增加全部選項
+      this.areaOptions.unshift({
+        label: '全部',
+        value: -1,
+        male: '',
+        female: '',
+        total: ''
+      })
       this.areaSelected = this.areaOptions[0] // 設置預設值
       this.reactiveData = this.formReceiveData
     },
     handleClick() {
-      const currentArea = this.areaOptions.find((item) => item === this.areaSelected)
-      this.updateCurrentArea(currentArea);
-      console.log('點擊搜尋')
+      const currentArea = this.formReceiveData.find((item) => item === this.areaSelected)
+      if (currentArea) return this.updateCurrentArea([currentArea]);
+      this.updateCurrentArea(this.formReceiveData)
+      console.log('點擊搜尋', this.areaSelected)
     }    
   }
 }
