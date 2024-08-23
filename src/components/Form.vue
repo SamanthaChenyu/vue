@@ -35,7 +35,7 @@ export default {
   },
   data() {
     const store = useStore();
-    const updateCurrentArea = (currentArea) => {
+    const updateCurrentArea = (currentArea: string) => {
       store.dispatch('setCurrentArea', currentArea);
     };
 
