@@ -1,99 +1,75 @@
 <template>
-      <div class="adTop">
-      <AdTop />
-    </div>
-  <header>
-      <Title />
-      <nav>
-        <RouterLink to="/">{{ routerName[0].name }}</RouterLink>
-        <RouterLink to="/third">{{ routerName[1].name }}</RouterLink>
-      </nav>
-      <Until />
-  </header>
+  <AdTop :screenWidth="screenWidth" />
+  <Navbar :screenWidth="screenWidth" />
   <div class="routerView">
     <RouterView />
   </div>
 </template>
 
-<script lang="ts">
-import router from '@/router'; 
-import { RouterLink, RouterView } from 'vue-router'
-import Title from './components/Title.vue'
-import Until from './components/Until.vue'
-import AdTop from '@/components/icons/AdTopImg.vue';
+<script>
+import { useStore } from 'vuex'
+import { RouterView } from 'vue-router'
+import router from '@/router'
+import Navbar from '@/components/Navbar.vue'
+import AdTop from '@/components/AdTop.vue'
 
 export default {
   components: {
-    AdTop,
-    Title
+    Navbar,
+    AdTop
+  },
+  mounted() {
+    this.screenWidth = window.innerWidth
+    window.addEventListener('resize', this.handleResize)
+  },
+  watch: {
+    screenWidth: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        console.log('螢幕寬度為：' + val)
+      }
+    }
   },
   data() {
-    const routerName =  router.options.routes
+    const store = useStore();
+    const routerName = router.options.routes
+    const updateIsScreen = (screenWidth) => {
+      store.dispatch('setIsScreenWidth', screenWidth);
+    };
+
     return {
-      routerName
+      routerName,
+      screenWidth: 0, //螢幕寬度
+      updateIsScreen
     }
+  },
+  methods: {
+    handleResize() {
+      this.screenWidth = window.innerWidth
+      // store
+      this.updateIsScreen(window.innerWidth)
+    }
+  },
+  beforeDestroy() {
+    // 在组件销毁前取消事件监听
+    window.removeEventListener('resize', this.handleResize)
   }
 }
-
-
 </script>
 
 <style lang="scss" scoped>
-.adTop {
-  text-align: center;
-}
-
-nav {
-  text-align: left;
-  display: flex;
-  align-items: center;
-  a {
-    font-size: 12px;
-  }
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
 .routerView {
-  margin-top: 72px;
-  min-width: 1280px;
-  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-@media (max-width: 1280px) { 
+@media (max-width: 1200px) {
   .routerView {
-    margin-top: 72px;
+    margin: auto;
     min-width: 100%;
-  }
-}
-
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    width: 100%;
-    height: 40px;
-    margin: 1rem 0;
-  }
-
-  nav {
-    font-size: 1rem;
+    padding-right: 18px;
+    padding-left: 18px;
   }
 }
 </style>

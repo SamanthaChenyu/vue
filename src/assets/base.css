@@ -1,3 +1,9 @@
+
+:root {
+  --max-width-mobile: 600px;
+  --max-width-tablet: 900px;
+  --max-width-desktop: 1200px;
+}
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --vt-c-white: #ffffff;
@@ -50,20 +56,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -84,4 +76,56 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.swiper-button-prev {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  background-image: url(/vue/src/assets/arrow.svg);
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  background-size: cover;
+  z-index: 999;
+  opacity: 1;
+  transform: translateY(-50%);
+  &.swiper-button-disabled {
+    opacity: 0.6;
+  }
+}
+.swiper-button-next {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  background-image: url(/vue/src/assets/arrow.svg);
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  background-size: cover;
+  z-index: 999;
+  opacity: 1;
+  transform: translateY(-50%) rotate(180deg);
+  &.swiper-button-disabled {
+    opacity: 0.6;
+  }
+}
+.swiper-pagination {
+  position: absolute;
+  z-index: 999;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+.swiper-pagination-bullet {
+  background-color: #fff;
+  width: 32px;
+  height: 8px;
+  margin-right:4px;
+  border-radius: 4px;
+  opacity: 0.6;  
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
 }

@@ -17,7 +17,7 @@ export default {
   },
   data() {
     const getData = (size: number) => {
-      return apiService.get(`/292443d2-faef-452c-96cd-33053e7369b6/json?size=${size}`)
+      return apiService.get(`data.ntpc.gov.tw/api/datasets/292443d2-faef-452c-96cd-33053e7369b6/json?size=${size}`)
     }
     return {
       fetchData: [],

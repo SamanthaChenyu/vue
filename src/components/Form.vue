@@ -79,6 +79,7 @@ export default {
 <style lang="scss" scoped>
 .forms {
   display: flex;
+  margin-top: 16px;
   .space {
     margin: 0px 16px 0px 16px;
   }
@@ -88,9 +89,11 @@ export default {
 }
 @media (max-width: 1280px) {
   .forms {
+    margin-top: 0px;
     flex-direction: column;
     .space {
       margin: 6px 0px;
+      text-align: center;
     }
     .buttonOutter {
       margin: 16px 0px;

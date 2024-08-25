@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosInstance = axios.create({
-  baseURL: 'https://data.ntpc.gov.tw/api/datasets',
+  baseURL: 'https://',
   withCredentials: false,
   timeout: 5 * 1000
 })
