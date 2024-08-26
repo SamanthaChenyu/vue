@@ -15,6 +15,12 @@
         :navigation="true"
         class="mySwiper"
         @slideChange="onSlideChange"
+        :breakpoints="{
+            '1200': {
+                slidesPerView: 1,
+                spaceBetween: 0,
+            }
+        }"
       >
         <swiper-slide v-for="item in fetchData">
           <img :src="item.img" :alt="item.name" />
@@ -53,7 +59,7 @@ export default {
           return '<p class="' + className + '"></p>'
         }
       },
-      modules: [Pagination, EffectCards, Navigation]
+      modules: [Pagination, EffectCards, Navigation],
     }
   },
   mounted() {
@@ -138,7 +144,7 @@ p.desc {
 @media (max-width: 1200px) {
 .swiper,
 .content {
-  width: 85%;
+  width: 95%;
   margin: auto;
 }
 .content {
@@ -147,6 +153,8 @@ p.desc {
   .box {
     .boxInner {
         flex-direction: column-reverse;
+        max-width: 100%;
+        min-width: 100%;
     }
   }
 }

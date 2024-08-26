@@ -133,6 +133,8 @@ export default {
 @media (max-width: 1200px) {
   .header {
     height: 60px;
+    max-width: 100%;
+    min-width: 100%;
     .logo {
       height: 29px;
       margin-left: 12px;
