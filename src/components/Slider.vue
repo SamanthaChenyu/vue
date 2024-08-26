@@ -40,7 +40,7 @@ export default {
   data() {
     const getData = () => {
       return apiService.get(
-        `newsapi.org/v2/top-headlines/sources?apiKey=bd1a6c049f5b48fd86b525e20ada4404&country=ca`
+        `https://newsapi.org/v2/top-headlines/sources?apiKey=bd1a6c049f5b48fd86b525e20ada4404&country=ca`
       )
     }
     return {
