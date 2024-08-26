@@ -1,15 +1,11 @@
 <template>
-    <button @click="handleClick" class="customButton">{{ context }}</button>
+    <button @click="handleClick" class="customButton">
+        <slot></slot>
+    </button>
 </template>
 
 <script>
 export default {
-    props: {
-        context: {
-            type: String,
-            required: true
-        }
-    },
     methods: {
         handleClick() {
             this.$emit('onClick')

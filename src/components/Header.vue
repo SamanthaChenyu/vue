@@ -16,7 +16,7 @@
       <div class="headerRight" :style="screenWidth < 1200 && (!isSearchBarShow ? 'transform: translateY(0px);' : 'transform: translateY(60px);')">
         <p class="text" v-if="screenWidth >= 1200">會員限定</p>
         <div class="loginBtn">
-          <RoundButton @onClick="handleLogin" context="登入" />
+          <RoundButton @onClick="handleLogin">登入</RoundButton>
         </div>
         <CustomBgButton
           @onClick="handleAddMember"

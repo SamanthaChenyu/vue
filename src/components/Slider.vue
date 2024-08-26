@@ -7,7 +7,9 @@
         <span class="hastag">{{ fetchData?.[currentSlide].modifiedDate }}</span>
         <p class="desc">{{ fetchData?.[currentSlide].description }}</p>
         <div class="roundButton">
-          <RoundButton @onClick="handleLink" context="立即閱讀" style="padding: 12px 48px;"/>
+          <RoundButton @onClick="handleLink" style="padding: 12px 48px;">
+            立即閱讀
+          </RoundButton>
         </div>
       </div>
       <swiper
@@ -99,10 +101,14 @@ export default {
   background-color: #f9f8f7;
   .boxInner {
     display: flex;
+    overflow: hidden;
     max-width: var(--max-width-desktop);
     min-width: var(--max-width-desktop);
     margin: auto;
     padding: 64px 0px;
+    .mySwiper:deep(.swiper-slide-shadow-cards) {
+      border-radius: 25px;
+    }
   }
 }
 .content {
