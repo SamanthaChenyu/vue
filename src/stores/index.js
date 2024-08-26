@@ -6,7 +6,6 @@ const store = createStore({
   state: {
     currentArea: {},
     isScreenWidth: null, // 視窗寬度
-    isPcWidth: 1200,
   },
   mutations: {
     updateCurrentArea(state, payload) {
@@ -14,7 +13,7 @@ const store = createStore({
     },
     updateIsScreenWidth(state, payload) {
       state.isScreenWidth = payload;
-    },
+    }
   },
   actions: {
     setCurrentArea({ commit }, payload) {
@@ -22,7 +21,7 @@ const store = createStore({
     },
     setIsScreenWidth({ commit }, payload) {
       commit('updateIsScreenWidth', payload);
-    },
+    }   
   },
   getters: {
     getCurrentArea(state) {
@@ -31,9 +30,6 @@ const store = createStore({
     getIsScreenWidth(state) {
       return state.isScreenWidth;
     },
-    getIsPcWidth(state) {
-      return state.isPcWidth;
-    }   
   },
 });
 

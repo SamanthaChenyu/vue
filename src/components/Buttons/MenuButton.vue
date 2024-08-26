@@ -10,16 +10,18 @@
 </template>
 
 <script lang="ts">
+import { useStore } from 'vuex'
+
 export default {
   data() {
     return {
-      isFalseMenuShow: false
+      isFalseMenuShow: false,
     }
   },
   methods: {
     menuToggle() {
-      this.$emit('menuToggle', this.isFalseMenuShow)
-    }
+      this.$emit('menuToggle', this.isFalseMenuShow);
+    },
   }
 }
 </script>

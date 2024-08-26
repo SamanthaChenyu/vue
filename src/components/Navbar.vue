@@ -71,29 +71,5 @@ nav {
   header {
     display: none;
   }
-  // header {
-  //   height: 100vh;
-  //   position: fixed;
-  //   top: 0;
-  //   background: rgba(181, 181, 181, 0.7);
-  //   z-index: 999;
-  //   nav {
-  //     min-width: 80%;
-  //     max-width: 80%;
-  //     display: flex;
-  //     flex-direction: column;
-  //     align-items: flex-start;
-  //     justify-content: flex-start;
-  //     background: #009944;
-  //     margin: 0px;
-  //     overflow-y: scroll;
-  //     a {
-  //       padding: 17px 25px;
-  //       font-size: 16px;
-  //       height: auto;
-  //       width: 100%;
-  //     }
-  //   }
-  // }
 }
 </style>

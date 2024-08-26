@@ -41,7 +41,7 @@ export default {
     return {
       routerName,
       screenWidth: 0, //螢幕寬度
-      updateIsScreen
+      updateIsScreen,
     }
   },
   methods: {
@@ -68,8 +68,6 @@ export default {
   .routerView {
     margin: auto;
     min-width: 100%;
-    padding-right: 18px;
-    padding-left: 18px;
   }
 }
 </style>

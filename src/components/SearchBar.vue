@@ -1,5 +1,5 @@
 <template>
-  <div class="searchBox">
+  <div class="searchBox" :style="screenWidth < 1200 && (isSearchBarShow ? 'top: 8px' : 'top: -100%;')">
     <select class="select">
       <option>全部</option>
     </select>
@@ -17,6 +17,20 @@
 
 <script>
 export default {
+  props: {
+    isSearchBarShow: {
+      type: Boolean,
+      required: true
+    },
+    screenWidth: {
+      type: Number,
+      required: true      
+    }
+  },
+  computed: {
+    isMbMode() {
+      }
+  },
   methods: {
     handleSearch() {
       this.$emit('onSearch')
@@ -49,6 +63,7 @@ export default {
   border-radius: 20px;
   display: flex;
   align-items: center;
+  background-color: var(--vt-c-white);
 }
 .searchIcon {
   width: 28px;
@@ -90,5 +105,16 @@ input {
 }
 
 @media (max-width: 1200px) {
+  .searchBox {
+    position: absolute;
+        width: calc(100% - 36px);
+        left: 50%;
+        transform: translateX(-50%);
+        top: -100%;
+        transition: all .3s;
+  }
+  input {
+    width: 150px;
+   }
 }
 </style>

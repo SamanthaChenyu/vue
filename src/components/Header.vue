@@ -1,30 +1,33 @@
 <template>
-  <div class="header">
-    <div class="headerLeft">
-      <MenuButton @menuToggle="menuToggle"/>
-      <div class="logo">
-        <img src="../assets/pcLogo.png" v-if="screenWidth >= 1200" />
-        <img src="../assets/Logo.png" v-else />
+  <div 
+  :class="isFixed">
+    <div class="header">
+      <div class="headerLeft" :style="screenWidth < 1200 && (!isSearchBarShow ? 'transform: translateY(0px);' : 'transform: translateY(60px);')">
+        <MenuButton @menuToggle="menuToggle"/>
+        <div class="logo">
+          <img src="../assets/pcLogo.png" v-if="screenWidth >= 1200" />
+          <img src="../assets/Logo.png" v-else />
+        </div>
+        <div class="pcHeaderBanner" v-if="screenWidth >= 1200">
+          <img src="../assets/pcHeaderBanner.png" />
+        </div>
       </div>
-      <div class="pcHeaderBanner" v-if="screenWidth >= 1200">
-        <img src="../assets/pcHeaderBanner.png" />
+      <SearchBar :isSearchBarShow="isSearchBarShow" :screenWidth="screenWidth" />
+      <div class="headerRight" :style="screenWidth < 1200 && (!isSearchBarShow ? 'transform: translateY(0px);' : 'transform: translateY(60px);')">
+        <p class="text" v-if="screenWidth >= 1200">會員限定</p>
+        <div class="loginBtn">
+          <RoundButton @onClick="handleLogin" context="登入" />
+        </div>
+        <CustomBgButton
+          @onClick="handleAddMember"
+          context="加入會員"
+          color="#FF9122"
+          v-if="screenWidth >= 1200"
+        />
       </div>
-    </div>
-    <SearchBar v-if="screenWidth >= 1200" />
-    <div class="headerRight">
-      <p class="text" v-if="screenWidth >= 1200">會員限定</p>
-      <div class="loginBtn">
-        <RoundButton @onClick="handleLogin" context="登入" />
-      </div>
-      <CustomBgButton
-        @onClick="handleAddMember"
-        context="加入會員"
-        color="#FF9122"
-        v-if="screenWidth >= 1200"
-      />
     </div>
   </div>
-  <MenuPage :isMenuPageShow="menuPage" :screenWidth="screenWidth"/>
+  <MenuPage :isMenuPageShow="menuPage" :screenWidth="screenWidth" :scrollY="scrollY" />
 </template>
 
 <script lang="ts">
@@ -42,6 +45,20 @@ export default {
     SearchBar,
     MenuPage
   },
+  computed: {
+    isFixed() {
+        if (this.screenWidth < 1200 && this.scrollY >= 285) {
+          return 'fixed'
+        } else if (this.screenWidth > 1200 && this.scrollY >= 320) {
+          return 'pcFixed'
+        } else {
+          return ''
+        }
+      }
+  },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
   mounted() {
     this.screenWidth = window.innerWidth
     window.addEventListener('resize', this.handleResize)
@@ -57,18 +74,37 @@ export default {
       handler(val) {
         console.log('螢幕寬度為：' + val)
       }
+    },
+    scrollY: {
+      immediate: true,
+      deep: true,
+      handler(val, old) {
+        // 往下滑
+        if (val > old) {
+          this.isSearchBarShow = true
+        } else {
+          this.isSearchBarShow = false
+        }
+        console.log('捲軸為：' + val, old)
+      }      
     }
   },
   data() {
     return {
+      isMbHeaderFixed: false,
       data: 0,
       screenWidth: 0, //螢幕寬度
-      menuPage: false
+      menuPage: false,
+      scrollY: 0, //捲軸
+      isSearchBarShow: false,
     }
   },
   methods: {
     handleResize() {
       this.screenWidth = window.innerWidth
+    },
+    handleScroll() {
+      this.scrollY = window.scrollY
     },
     handleLogin() {
       console.log('登入啦啦啦!')
@@ -77,10 +113,13 @@ export default {
       console.log('加入會員啦啦啦!')
     },
     menuToggle(isFalseMenuShow) {
+      const body = document.querySelector("body")
       if (isFalseMenuShow === false) {
         this.menuPage = true
+        body.style = 'overflow: hidden';
       } else {
         this.menuPage = false
+        body.style = '';
       }
     }
   }
@@ -88,6 +127,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pcFixed {
+  position: fixed;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    transition: all .3s;
+    width: 100%;  
+}
+.fixed {
+  position: fixed;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    transition: all .3s;
+    width: 100%;
+}
 .header {
   background-color: #fff;
   margin: 0 auto;
@@ -114,10 +169,12 @@ export default {
   .headerLeft {
     display: flex;
     align-items: center;
+    transition: all .3s;
   }
   .headerRight {
     display: flex;
     align-items: center;
+    transition: all .3s;
     .text {
       font-size: 16px;
       line-height: 24px;
@@ -132,9 +189,10 @@ export default {
 
 @media (max-width: 1200px) {
   .header {
+    overflow: hidden;
     height: 60px;
-    max-width: 100%;
-    min-width: 100%;
+    max-width: calc(100% - 18px);
+    min-width: calc(100% - 18px);
     .logo {
       height: 29px;
       margin-left: 12px;

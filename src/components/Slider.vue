@@ -6,6 +6,9 @@
         <span class="hastag">{{ fetchData?.[currentSlide].name }}</span>
         <span class="hastag">{{ fetchData?.[currentSlide].modifiedDate }}</span>
         <p class="desc">{{ fetchData?.[currentSlide].description }}</p>
+        <div class="roundButton">
+          <RoundButton @onClick="handleLink" context="立即閱讀" style="padding: 12px 48px;"/>
+        </div>
       </div>
       <swiper
         :effect="'cards'"
@@ -35,13 +38,15 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, EffectCards } from 'swiper/modules'
 import * as apiService from '../services/apiService.js'
 import IconArrow from './icons/IconArrow.vue'
+import RoundButton from './Buttons/RoundButton.vue'
 import 'swiper/css'
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
-    IconArrow
+    IconArrow,
+    RoundButton
   },
   data() {
     const getData = () => {
@@ -81,6 +86,9 @@ export default {
     onSlideChange(val) {
       this.currentSlide = val.activeIndex
       console.log(val.activeIndex)
+    },
+    handleLink() {
+      console.log('沒有要讓你閱讀')
     }
   }
 }
@@ -97,6 +105,9 @@ export default {
     padding: 64px 0px;
   }
 }
+.content {
+  position: relative;
+}
 .swiper,
 .content {
   width: calc(50% - 30px);
@@ -104,7 +115,6 @@ export default {
 .swiper {
   overflow: initial !important;
 }
-
 .swiper-slide img {
   display: block;
   width: 100%;
@@ -140,22 +150,48 @@ p.desc {
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
 }
+.roundButton {
+  position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
 
 @media (max-width: 1200px) {
+  .roundButton {
+  position: initial;
+    bottom: initial;
+    left: initial;
+    transform: initial;
+    transform: initial;
+        text-align: center;
+        margin-top: 48px;
+}
 .swiper,
 .content {
-  width: 95%;
+  width: 327px;
   margin: auto;
 }
 .content {
     margin-top: 16px;
 }
   .box {
+    overflow: hidden;
     .boxInner {
         flex-direction: column-reverse;
         max-width: 100%;
         min-width: 100%;
+        padding: 32px 0px;
     }
+  }
+}
+
+@media (max-width: 320px) {
+  .swiper,
+  .content {
+    width: calc(100% - 18px);
+    margin: auto;
   }
 }
 </style>
