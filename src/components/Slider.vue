@@ -4,7 +4,7 @@
       <div class="content">
         <span class="tag">▶ 影音</span>
         <span class="hastag">{{ fetchData?.[currentSlide].name }}</span>
-        <span class="hastag">常見治療問題</span>
+        <span class="hastag">{{ fetchData?.[currentSlide].modifiedDate }}</span>
         <p class="desc">{{ fetchData?.[currentSlide].description }}</p>
       </div>
       <swiper
@@ -40,7 +40,7 @@ export default {
   data() {
     const getData = () => {
       return apiService.get(
-        `https://newsapi.org/v2/top-headlines/sources?apiKey=bd1a6c049f5b48fd86b525e20ada4404&country=ca`
+        `https://data.ntpc.gov.tw/api/datasets/17168616-329b-4034-9290-2114a23ab80b/json?size=4`
       )
     }
     return {
@@ -62,17 +62,15 @@ export default {
   methods: {
     async init() {
       const res = await this.getData(100)
-      if (res.status === 'ok') {
-        this.fetchData = res.sources.map((item) => {
+        this.fetchData = res && res.map((item) => {
           return {
             id: item.id,
-            name: item.name,
-            description: item.description,
-            url: item.url,
+            name: item.author,
+            description: item.title,
+            modifiedDate: item.modifiedDate,
             img: 'https://picsum.photos/768/432'
           }
         })
-      }
     },
     onSlideChange(val) {
       this.currentSlide = val.activeIndex
