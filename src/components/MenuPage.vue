@@ -73,7 +73,6 @@ export default {
     width: 100%;
     left: -100%;
     top: 0;
-    background: rgba(184, 184, 184, 0.7);
     transition: all .3s;
 }
 .menuPage {
@@ -99,7 +98,7 @@ export default {
 
 @media (max-width: 1200px) {
     .menuPage {
-        background: var(--vt-c-white);
+        background-color: #F7F7F7;
         top: 345px;
     }
     .mbBanner {

@@ -80,8 +80,10 @@ export default {
       deep: true,
       handler(val, old) {
         // 往下滑
-        if (val > old) {
+        if (val > old && this.scrollY >= 285) {
           this.isSearchBarShow = true
+        } else if (val === old) {
+          this.isSearchBarShow = false
         } else {
           this.isSearchBarShow = false
         }
