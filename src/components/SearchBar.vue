@@ -121,10 +121,10 @@ input {
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
-  width: 190px;
+  width: 225px;
   border: none;
   border-bottom: 0;
-  transform: all .3s;
+  transition: all .3s;
   &:focus {
     outline: none;
   }
