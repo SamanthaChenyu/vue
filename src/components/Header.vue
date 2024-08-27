@@ -79,8 +79,6 @@ export default {
       immediate: true,
       deep: true,
       handler(val, old) {
-        // 當 searchBar Input onFoucs 停止行為
-        if (this.needStopBehavior) return 
         // 往下滑
         if (val > old && this.scrollY >= 285) {
           this.isSearchBarShow = true
@@ -101,12 +99,16 @@ export default {
       menuPage: false,
       scrollY: 0, //捲軸
       isSearchBarShow: false,
-      needStopBehavior: false
     }
   },
   methods: {
     handleSearchInputFocus(val) {
-      this.needStopBehavior = val
+      const body = document.querySelector("body")
+      if (this.needStopBehavior) {
+        body.style = 'overflow: hidden';
+      } else {
+        body.style = '';
+      }
     },
     handleResize() {
       this.screenWidth = window.innerWidth
