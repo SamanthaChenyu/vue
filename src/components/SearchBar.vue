@@ -9,7 +9,7 @@
       </select>
       <p class="separate"></p>
       <div class="group">
-        <input type="text" ref="refInput" required placeholder="請輸入關鍵字" @focus="isShowLineBtn = false" @blur="isShowLineBtn = true"/>
+        <input type="text" ref="refInput" required placeholder="請輸入關鍵字" @focus="isShowLineBtn = false" />
         <span class="highlight"></span>
         <span class="bar"></span>
         <button class="searchIcon" @click="handleSearch">
