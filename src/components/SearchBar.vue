@@ -43,7 +43,7 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        if (!val) this.$refs.refInput.blur()
+        if (!val && typeof this.$refs.refInput !== 'undefined') this.$refs.refInput.blur()
       }
     }    
   },
