@@ -193,8 +193,8 @@ export default {
   .header {
     overflow: hidden;
     height: 60px;
-    max-width: calc(100% - 18px);
-    min-width: calc(100% - 18px);
+    max-width: calc(100% - 36px);
+    min-width: calc(100% - 36px);
     .logo {
       height: 29px;
       margin-left: 12px;

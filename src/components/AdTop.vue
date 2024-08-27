@@ -30,12 +30,15 @@ export default {
 <style lang="scss" scoped>
 .adTop {
   padding: 15px 0;
+  background-color: #F9F8F7;
   .wrapper {
     box-sizing: border-box;
     margin: 0 auto;
     max-width: var(--max-width-desktop);
     min-width: var(--max-width-desktop);
     text-align: center;
+    object-fit: contain;
+    height: 250px;
     .contentLeaflet {
       text-align: center;
     }

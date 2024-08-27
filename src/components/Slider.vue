@@ -28,7 +28,7 @@
         }"
       >
         <swiper-slide v-for="item in fetchData">
-          <img :src="item.img" :alt="item.name" />
+          <img src="../assets/768x432.jpg" :alt="item.name" />
         </swiper-slide>
       </swiper>
     </div>
@@ -53,7 +53,7 @@ export default {
   data() {
     const getData = () => {
       return apiService.get(
-        `https://data.ntpc.gov.tw/api/datasets/17168616-329b-4034-9290-2114a23ab80b/json?size=4`
+        `https://data.ntpc.gov.tw/api/datasets/17168616-329b-4034-9290-2114a23ab80b/json?size=3`
       )
     }
     return {
@@ -80,8 +80,7 @@ export default {
             id: item.id,
             name: item.author,
             description: item.title,
-            modifiedDate: item.modifiedDate,
-            img: 'https://picsum.photos/768/432'
+            modifiedDate: item.modifiedDate
           }
         })
     },
@@ -149,7 +148,6 @@ p.desc {
     font-size: 32px;
     line-height: 48px;
     font-weight: 700;
-
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -165,6 +163,9 @@ p.desc {
 }
 
 @media (max-width: 1200px) {
+  p.desc {
+     text-align: justify
+  }
   .roundButton {
   position: initial;
     bottom: initial;
@@ -176,7 +177,7 @@ p.desc {
 }
 .swiper,
 .content {
-  width: 327px;
+  width: calc(100% - 36px);
   margin: auto;
 }
 .content {
@@ -196,7 +197,7 @@ p.desc {
 @media (max-width: 320px) {
   .swiper,
   .content {
-    width: calc(100% - 18px);
+    width: calc(100% - 36px);
     margin: auto;
   }
 }
