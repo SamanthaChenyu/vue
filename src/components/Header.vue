@@ -12,7 +12,7 @@
           <img src="../assets/pcHeaderBanner.png" />
         </div>
       </div>
-      <SearchBar :isSearchBarShow="isSearchBarShow" :screenWidth="screenWidth" />
+      <SearchBar :isSearchBarShow="isSearchBarShow" :screenWidth="screenWidth" @inputOnFocus="handleSearchInputFocus" />
       <div class="headerRight" :style="screenWidth < 1200 && (!isSearchBarShow ? 'transform: translateY(0px);' : 'transform: translateY(60px);')">
         <p class="text" v-if="screenWidth >= 1200">會員限定</p>
         <div class="loginBtn">
@@ -79,6 +79,8 @@ export default {
       immediate: true,
       deep: true,
       handler(val, old) {
+        // 當 searchBar Input onFoucs 停止行為
+        if (this.needStopBehavior) return 
         // 往下滑
         if (val > old && this.scrollY >= 285) {
           this.isSearchBarShow = true
@@ -99,9 +101,13 @@ export default {
       menuPage: false,
       scrollY: 0, //捲軸
       isSearchBarShow: false,
+      needStopBehavior: false
     }
   },
   methods: {
+    handleSearchInputFocus(val) {
+      this.needStopBehavior = val
+    },
     handleResize() {
       this.screenWidth = window.innerWidth
     },

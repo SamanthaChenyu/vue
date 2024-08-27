@@ -9,6 +9,9 @@ const projectRootDir = resolve(__dirname);
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/vue/',
+  server:{
+    host: '192.168.18.4'    
+  },
   plugins: [
     alias(),
     vue({

@@ -9,7 +9,9 @@
       </select>
       <p class="separate"></p>
       <div class="group">
-        <input type="text" ref="refInput" required placeholder="請輸入關鍵字" @focus="isShowLineBtn = false" />
+        <input type="text" ref="refInput" required placeholder="請輸入關鍵字" 
+        @focus="handleEvent('focus')" 
+        @blur="handleEvent('blur')"/>
         <span class="highlight"></span>
         <span class="bar"></span>
         <button class="searchIcon" @click="handleSearch">
@@ -52,12 +54,19 @@ export default {
       isShowLineBtn: true,
     }
   },
-  computed: {
-    isMbMode() {}
-  },
   methods: {
     handleSearch() {
       this.$emit('onSearch')
+    },
+    handleEvent(event){
+      if (event === 'blur') {
+        this.isShowLineBtn = true;
+        this.$emit('inputOnFocus', false)
+      } 
+      if (event === 'focus') {
+        this.isShowLineBtn = false;
+        this.$emit('inputOnFocus', true)
+      }
     }
   }
 }
