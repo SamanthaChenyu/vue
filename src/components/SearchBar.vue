@@ -149,6 +149,10 @@ input {
     color: #b7b7b7;
     font-size: 16px;
   }
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  }
 }
 
 @media (max-width: 1200px) {
