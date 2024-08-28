@@ -79,15 +79,13 @@ export default {
       immediate: true,
       deep: true,
       handler(val, old) {
-        if (this.screenWidth < 1200) {
-          // 當手機版鍵盤出現
-          window.addEventListener('keyboardup', function (e) {
-            this.needStopBehavior = true
-          })
-          // 键盘收起事件
-          window.addEventListener('keyboarddown', function (e) {
+        // 當手機鍵盤出現
+        if (this.needStopBehavior) {
+          // 判斷往上滑
+          if ( (old - val) === 1 )  {
+            this.isSearchBarShow = false
             this.needStopBehavior = false
-          })
+          }
         }
 
         // 往下滑
@@ -115,7 +113,9 @@ export default {
   },
   methods: {
     handleSearchInputFocus(val) {
-      console.log('偵測input狀態')
+      if (this.screenWidth < 1200) {
+        this.needStopBehavior = val
+      }
     },
     handleResize() {
       this.screenWidth = window.innerWidth
