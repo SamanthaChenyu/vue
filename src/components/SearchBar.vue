@@ -11,7 +11,8 @@
       <div class="group">
         <input type="text" ref="refInput" required placeholder="請輸入關鍵字" 
         @focus="handleEvent('focus')" 
-        @blur="handleEvent('blur')"/>
+        @blur="handleEvent('blur')"
+        id="searchInput" />
         <span class="highlight"></span>
         <span class="bar"></span>
         <button class="searchIcon" @click="handleSearch">

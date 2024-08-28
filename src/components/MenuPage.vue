@@ -67,7 +67,7 @@ export default {
     left: 0 !important;
 }
 .menuPagebox {
-  position: fixed;
+  position: sticky;
     z-index: 999;
     height: 100%;
     width: 100%;

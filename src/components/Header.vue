@@ -79,6 +79,10 @@ export default {
       immediate: true,
       deep: true,
       handler(val, old) {
+        // 當手機版鍵盤出現
+        // window.screen.height * 0.3 是預設的最小手機鍵盤高度
+        if (this.screenWidth < 1200 && window.screen.height > window.innerHeight + window.screen.height * 0.3) return
+
         // 往下滑
         if (val > old && this.scrollY >= 285) {
           this.isSearchBarShow = true
@@ -99,15 +103,13 @@ export default {
       menuPage: false,
       scrollY: 0, //捲軸
       isSearchBarShow: false,
+      needStopBehavior: false,
     }
   },
   methods: {
     handleSearchInputFocus(val) {
-      const body = document.querySelector("body")
-      if (this.needStopBehavior) {
-        body.style = 'overflow: hidden';
-      } else {
-        body.style = '';
+      if (this.screenWidth < 1200) {
+        this.needStopBehavior = val
       }
     },
     handleResize() {
@@ -138,7 +140,7 @@ export default {
 
 <style lang="scss" scoped>
 .pcFixed {
-  position: fixed;
+  position: sticky;
     top: 0;
     background-color: #fff;
     z-index: 999;
@@ -146,7 +148,7 @@ export default {
     width: 100%;  
 }
 .fixed {
-  position: fixed;
+  position: sticky;
     top: 0;
     background-color: #fff;
     z-index: 999;
