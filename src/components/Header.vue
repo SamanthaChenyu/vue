@@ -107,8 +107,14 @@ export default {
   },
   methods: {
     handleSearchInputFocus(val) {
+      const body = document.querySelector("body")
       if (this.screenWidth < 1200) {
         this.needStopBehavior = val
+        if (val) {
+          body.style = 'overflow: hidden';
+        } else {
+          body.style = '';
+        }
       }
     },
     handleResize() {
