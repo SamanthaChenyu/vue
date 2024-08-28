@@ -4,16 +4,12 @@
     :style="screenWidth < 1200 && (isSearchBarShow ? 'top: 8px' : 'top: -100%;')"
   >
     <div class="searchBox">
-      <!-- <select class="select">
-        <div class="select-option">全部</div>
-      </select> -->
       <Droplist v-model="droplistValue" :list="droplistOptions" />
       <p class="separate"></p>
       <div class="group">
-        <input type="text" ref="refInput" required placeholder="請輸入關鍵字" 
+        <input type="text" ref="searchInput" required placeholder="請輸入關鍵字" 
         @focus="handleEvent('focus')" 
-        @blur="handleEvent('blur')"
-        id="searchInput" />
+        @blur="handleEvent('blur')" />
         <span class="highlight"></span>
         <span class="bar"></span>
         <button class="searchIcon" @click="handleSearch">
@@ -49,7 +45,7 @@ export default {
       immediate: true,
       deep: true,
       handler(val) {
-        if (!val && typeof this.$refs.refInput !== 'undefined') this.$refs.refInput.blur()
+        if (!val && typeof this.$refs.searchInput !== 'undefined') this.$refs.searchInput.blur()
       }
     }    
   },

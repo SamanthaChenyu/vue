@@ -33,10 +33,14 @@ export default {
       type: Array,
     }
   },
+  created() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
   data() {
     return {
       value: '',
       showOptions: false,
+      scrollY: 0, //捲軸
     }
   },
   computed: {
@@ -50,8 +54,18 @@ export default {
     modelValue() {
       this.value = this.modelValue
     },
+    scrollY: {
+      immediate: true,
+      deep: true,
+      handler(val, old) {
+        this.showOptions = false
+      }      
+    }
   },
   methods: {
+    handleScroll() {
+      this.scrollY = window.scrollY
+    },
     handleValueChange() {
     },
     handleTextClick() {
