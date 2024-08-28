@@ -145,7 +145,7 @@ export default {
 
 <style lang="scss" scoped>
 .pcFixed {
-  position: sticky;
+  position: fixed;
     top: 0;
     background-color: #fff;
     z-index: 999;
@@ -153,7 +153,7 @@ export default {
     width: 100%;  
 }
 .fixed {
-  position: sticky;
+  position: fixed;
     top: 0;
     background-color: #fff;
     z-index: 999;
