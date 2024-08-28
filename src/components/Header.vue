@@ -80,8 +80,7 @@ export default {
       deep: true,
       handler(val, old) {
         // 當手機版鍵盤出現
-        // window.screen.height * 0.3 是預設的最小手機鍵盤高度
-        if (this.screenWidth < 1200 && window.screen.height > window.innerHeight + window.screen.height * 0.3) return
+        if (this.needStopBehavior) return
 
         // 往下滑
         if (val > old && this.scrollY >= 285) {
@@ -108,15 +107,19 @@ export default {
   },
   methods: {
     handleSearchInputFocus(val) {
-      if (this.screenWidth < 1200) {
-        this.needStopBehavior = val
-      }
+      console.log('偵測input狀態')
     },
     handleResize() {
       this.screenWidth = window.innerWidth
     },
     handleScroll() {
       this.scrollY = window.scrollY
+      // 當手機版鍵盤出現
+      if (window.screen.height > window.innerHeight + window.screen.height * 0.3) {
+        this.needStopBehavior = true
+      } else {
+        this.needStopBehavior = false
+      }
     },
     handleLogin() {
       console.log('登入啦啦啦!')
