@@ -81,11 +81,11 @@ export default {
       handler(val, old) {
         if (this.screenWidth < 1200) {
           // 當手機版鍵盤出現
-          window.on('keyboardup', function (e) {
+          window.addEventListener('keyboardup', function (e) {
             this.needStopBehavior = true
           })
           // 键盘收起事件
-          window.on('keyboarddown', function (e) {
+          window.addEventListener('keyboarddown', function (e) {
             this.needStopBehavior = false
           })
         }
