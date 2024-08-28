@@ -79,11 +79,19 @@ export default {
       immediate: true,
       deep: true,
       handler(val, old) {
-        // 當手機版鍵盤出現
-        if (this.needStopBehavior) return
+        if (this.screenWidth < 1200) {
+          // 當手機版鍵盤出現
+          window.on('keyboardup', function (e) {
+            this.needStopBehavior = true
+          })
+          // 键盘收起事件
+          window.on('keyboarddown', function (e) {
+            this.needStopBehavior = false
+          })
+        }
 
         // 往下滑
-        if (val > old && this.scrollY >= 285) {
+        if (val > old && this.scrollY >= 285 && !this.needStopBehavior) {
           this.isSearchBarShow = true
         } else if (val === old) {
           this.isSearchBarShow = false
@@ -114,12 +122,6 @@ export default {
     },
     handleScroll() {
       this.scrollY = window.scrollY
-      // 當手機版鍵盤出現
-      if (window.screen.height > window.innerHeight + window.screen.height * 0.3) {
-        this.needStopBehavior = true
-      } else {
-        this.needStopBehavior = false
-      }
     },
     handleLogin() {
       console.log('登入啦啦啦!')
