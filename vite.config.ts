@@ -10,7 +10,7 @@ const projectRootDir = resolve(__dirname);
 export default defineConfig({
   base: '/vue/',
   server:{
-    host: '192.168.18.4'    
+    host: true    
   },
   plugins: [
     alias(),

@@ -4,9 +4,10 @@
     :style="screenWidth < 1200 && (isSearchBarShow ? 'top: 8px' : 'top: -100%;')"
   >
     <div class="searchBox">
-      <select class="select">
-        <option>全部</option>
-      </select>
+      <!-- <select class="select">
+        <div class="select-option">全部</div>
+      </select> -->
+      <Droplist v-model="droplistValue" :list="droplistOptions" />
       <p class="separate"></p>
       <div class="group">
         <input type="text" ref="refInput" required placeholder="請輸入關鍵字" 
@@ -26,10 +27,12 @@
 
 <script>
 import IconSearch from "../components/icons/IconSearch.vue";
+import Droplist from '../components/Droplist.vue'
 
 export default {
   components: {
-    IconSearch
+    IconSearch,
+    Droplist,
   },
   props: {
     isSearchBarShow: {
@@ -53,6 +56,13 @@ export default {
   data() {
     return {
       isShowLineBtn: true,
+      droplistValue: '',
+      droplistOptions: [
+        { text: '全部', value: 0 },
+        { text: '新聞', value: 1 },
+        { text: '專欄', value: 2 },
+        { text: '體育', value: 3 },
+      ]
     }
   },
   methods: {
@@ -63,17 +73,37 @@ export default {
       if (event === 'blur') {
         this.isShowLineBtn = true;
         this.$emit('inputOnFocus', false)
+        this.stopScrollEvent(false)
       } 
       if (event === 'focus') {
         this.isShowLineBtn = false;
         this.$emit('inputOnFocus', true)
+        this.stopScrollEvent(true)
       }
-    }
+    },
+    stopScroll(e) {
+      e.preventDefault()
+    },
+    stopScrollEvent(bool) {
+      if (bool) {        
+        window.addEventListener('touchmove', this.stopScroll, { passive: false })
+        window.addEventListener('scroll', this.stopScroll, true)
+      } else {
+        window.removeEventListener('touchmove', this.stopScroll, false)
+        window.removeEventListener('scroll', this.stopScroll, true)
+      }
+    },
+  },
+  mounted() {
+    this.droplistValue = this.droplistOptions[0]?.value
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.select-option {
+  
+}
 .addLineFriends {
   background-color: #07b53b;
   border-radius: 46px;
