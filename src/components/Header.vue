@@ -80,13 +80,7 @@ export default {
       deep: true,
       handler(val, old) {
         // 當手機鍵盤出現
-        if (this.needStopBehavior) {
-          // 判斷往上滑
-          if ( (old - val) === 1 )  {
-            this.isSearchBarShow = false
-            this.needStopBehavior = false
-          }
-        }
+        if (this.needStopBehavior) return
 
         // 往下滑
         if (val > old && this.scrollY >= 285 && !this.needStopBehavior) {
