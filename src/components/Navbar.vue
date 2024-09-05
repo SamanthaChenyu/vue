@@ -1,8 +1,13 @@
 <template>
   <header v-if="screenWidth >= 1200">
     <nav>
-      <RouterLink to="/">{{ routerName[0].name }}</RouterLink>
-      <RouterLink to="/third">{{ routerName[1].name }}</RouterLink>
+      <RouterLink 
+        v-for="item in routerName" 
+        :to="item.path"
+        :key="item.path"
+      >
+        {{ item.name }}
+      </RouterLink>
     </nav>
   </header>
 </template>

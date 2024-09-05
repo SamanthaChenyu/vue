@@ -2,6 +2,7 @@
   <div v-if="fetchData.length > 0">
     <Form  :formReceiveData="fetchData" />
     <Table :tableData="fetchData" />
+    <MenuDropdown />
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import * as apiService from '@/services/apiService.js'
 import Form from '../components/Form.vue'
 import Table from '../components/Table.vue'
+import MenuDropdown from '@/components/MenuDropdown.vue'
 
 export default {
   components: {
     Form,
-    Table
+    Table,
+    MenuDropdown
   },
   data() {
     const getData = (size: number) => {
