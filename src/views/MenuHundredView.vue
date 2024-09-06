@@ -2,20 +2,10 @@
   <div class="wrapper">
     <div id="sidebar" :class="{ active: sidebarCollapse }">
       <div class="sidebar-header">
-        <h3>Sidebar</h3>
+        <button type="button" @click="toggleAll" class="toggleAll">全部展開/收合</button>
       </div>
-
-      <ul class="list-unstyled components">
-        <li class="active">
-          <a href="#" class="dropdown-toggle">Home</a>
-
-          <ul class="collapse list-unstyled">
-            <li>
-              <a href="#">第0層</a>
-<MenuDropdown />
-            </li>
-          </ul>
-        </li>
+      <ul>
+        <MenuDropdown :menu="menuList" />
       </ul>
     </div>
 
@@ -37,22 +27,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import MenuDropdown from '@/components/MenuDropdown.vue'
 
 export default {
-  conponents: {
-    MenuDropdown,
+  name: 'MenuHundredView',
+  components: {
+    MenuDropdown
   },
   data() {
     return {
       sidebarCollapse: false,
-      // 產生數值序列 v 初始化為 `undefined`
-      menu: [...Array(5)].map((v, number) => {
-        return {
-          title: number,
-          submenu: `${number}-child`
-        }
-      })
+      menuList: [],
     }
   },
   created() {
@@ -60,17 +46,62 @@ export default {
   },
   methods: {
     handleCreate() {
-      console.log('開始R!')
-    }
+      this.menuList = this.createMenuList(99)
+    },
+    createMenuList(levels, currentLevel = 0) {
+      // 基本結構
+      const menuItem = {
+        id: currentLevel,
+        name: `${currentLevel}`,
+        sub: []
+      };
+      // 客製化設置多少以下需要添加子菜單
+      if (currentLevel < levels - 1) {
+        menuItem.sub.push(this.createMenuList(levels, currentLevel + 1));
+      }
+      return menuItem;
+    },
+    ...mapActions(['setOpenMenus']),
+    toggleAll() {
+      const allMenuIds = this.collectMenuIds(this.menuList);
+      const currentlyOpen = allMenuIds.every(id => this.$store.getters.isMenuOpen(id));
+      this.setOpenMenus(currentlyOpen ? [] : allMenuIds);
+    },
+    collectMenuIds(menu) {
+      let ids = [menu.id];
+      if (menu.sub) {
+        menu.sub.forEach(subMenu => {
+          ids = ids.concat(this.collectMenuIds(subMenu));
+        });
+      }
+      return ids;
+    }    
   }
 }
 </script>
 
 <style lang="scss" scoped>
 $color_lavendar: #7386d5;
+$color_lighter: #92a3ec;
+$color_darker: #5267c8;
+
+.toggleAll {
+  border: 0;
+    background-color: $color_darker;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: #fff;
+    box-shadow: 4px 4px 1px 0px $color_lighter;
+    cursor: pointer;
+    transition: .3s all;
+    &:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 1px 0px $color_lighter;
+    }
+}
 
 ul {
-  padding-inline-start: 28px;
+  padding-inline-start: 0px;
 }
 #content {
   padding: 20px;
@@ -98,6 +129,7 @@ p {
   min-width: 1250px;
   max-width: 1250px;
   min-height: 100vh;
+  overflow-x: scroll;
 }
 
 #sidebar .sidebar-header {
@@ -109,32 +141,6 @@ p {
   margin-left: -1250px;
 }
 
-a[data-toggle='collapse'] {
-  position: relative;
-}
-
-a,
-a:hover,
-a:focus {
-  color: inherit;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-/* dropdown-toggle is a bootstrap class */
-.dropdown-toggle::after {
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-}
-
-/*
-Small devices will have the sidebar hidden by default and you use a deliberate action to active it.
-
-Large devices can show the sidebar all the time (unless deliberately dismissed).
-*/
 @media (max-width: 768px) {
   #sidebar {
     margin-left: -1250px; /* reverses previous setting */
@@ -144,34 +150,9 @@ Large devices can show the sidebar all the time (unless deliberately dismissed).
   }
 }
 
-#sidebar ul.components {
-  padding: 20px 0;
-  border-bottom: 1px solid #47748b;
-}
-
 #sidebar ul p {
   color: #fff;
   padding: 10px;
 }
 
-#sidebar ul li a {
-  padding: 10px;
-  font-size: 1.1em;
-  display: block;
-}
-#sidebar ul li a:hover {
-  color: $color_lavendar;
-  background: #fff;
-}
-
-#sidebar ul li.active > a,
-a[aria-expanded='true'] {
-  color: #fff;
-  background: #6d7fcc;
-}
-ul ul a {
-  font-size: 0.9em !important;
-  padding-left: 30px !important;
-  background: #6d7fcc;
-}
 </style>
