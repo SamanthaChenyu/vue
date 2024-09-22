@@ -13,14 +13,24 @@
           @click="showPicker = true"
         />
         <van-popup v-model:show="showPicker" round position="bottom">
-          <van-picker
+          <van-picker-group
             :loading="loading"
-            :columns="list"
-            :columns-field-names="customFieldName"
-            @cancel="showPicker = false"
+            title="选择飲料"
+            :tabs="tabs"
+            next-step-text="下一步"
             @confirm="onConfirm"
-            @scroll-into="scrollInto"
-          />
+            @cancel="showPicker = false"
+            v-model:active-tab="activeTab"
+          >
+            <van-picker
+              v-for="menuItem in list"
+              :loading="loading"
+              :columns="sliceList"
+              @cancel="showPicker = false"
+              @confirm="onConfirm"
+              @scroll-into="onChangeTabs"
+            />           
+          </van-picker-group>
         </van-popup>
 
       </div>
@@ -55,44 +65,131 @@ export default {
         ? apiService.get("/vue/data.json")
         : apiService.get("/data.json")
     };
+    const ACTIVE_TYPES = {
+      fristClass: 0,
+      secondClass: 1
+    }
     return {
+      activeTab: ACTIVE_TYPES.fristClass,
       sidebarCollapse: false,
       menuList: [],
       getMenuDataURL,
       loading: false,
       list: [],
-      customFieldName: {
-        text: 'cityName',
-        value: 'cityName',
-        children: 'cities',
-      },
       fieldValue: '',
-      showPicker: false
+      showPicker: false,
+      ACTIVE_TYPES,
+      arrangeList: [],
+
+      fristClassIds: [],
+      secondClassIds: [],
+      thiredClassIds: [],
+      currentTabKey: null,
+
+      selectedIndex: [0],
     }
   },
   created() {
     this.handleCreate()
   },
+  computed: {
+    tabs() {
+      // switch (true) {
+      //   // 第一層選好，邁向第二項
+      //   case this.fristClassIds.includes(this.currentTabKey):
+      //   return ['选择第一項', '选择第二項']
+      //   case this.secondClassIds.includes(this.currentTabKey):
+      //   return ['选择第一項', '选择第二項', '选择第三項']
+      //   case this.thiredClassIds.includes(this.currentTabKey):
+      //   return ['选择第一項', '选择第二項', '选择第三項', '选择第四項']
+      //   default:
+      //   return ['选择第一項']
+      // }
+      return Array.from({ length: this.selectedIndex.length + 1 }).map((_, idx) => `選擇第${idx + 1}項`)
+    },
+    sliceList() {
+      // this.list.map((item) => {
+
+      //   if (this.activeTab === 0) {
+      //     this.arrangeList.push({
+      //       key: item.key,
+      //       text: item.text,
+      //     })          
+      //   }
+        
+      //   if (this.activeTab === 1) {
+      //     item.children.find((child) => child.key === this.currentTabKey)
+      //   }
+      //   this.arrangeList =             
+      // })
+      // return this.arrangeList
+      return this.findListData(this.list, 0)
+    }
+  },
   methods: {
+    findListData(data, layer, parentData = this.list) {
+      console.log('### this.selectedIndex', this.selectedIndex)
+      console.log('### layer', layer)
+      console.log('### this.activeTab', this.activeTab)
+      if (this.activeTab === layer) return data.map((item, index) => ({ index, layer, key: item.key, text: item.text }))
+      if (!data[this.selectedIndex[layer]]) {
+        this.activeTab--
+        this.selectedIndex.pop()
+        return parentData.map((item, index) => ({ index, layer: layer - 1, key: item.key, text: item.text }))
+      }
+
+      return this.findListData(data[this.selectedIndex[layer]].children, layer + 1, data)
+
+    },
     async handleCreate() {
       this.loading = true;
       this.menuList = this.createMenuList(100)
       const response = await this.getMenuDataURL();
       this.list = response
-      this.assignCityName(this.list); // 為取得的資料增加 cityName 和 cities
-      console.log(this.list)
+      this.handleMenu(response)
       this.loading = false;
-    }, 
-    // 取得父層配置
-    assignCityName(items) {
-      items.forEach(item => {
-        item.cityName = item.text;
-        item.value = item.text;
-        item.cities = item.children || [];
+    },
+    handleMenu(list) {
+      let add = { level: [] };
+      let groupLevel = 0;
+
+      list.forEach((item, index) => {
+        this.fristClassIds.push(item.key);
+
         if (item.children) {
-          this.assignCityName(item.children);
+
+          item.children.map((child) => {
+            this.secondClassIds.push(child.key)
+            
+            if (child.children) {
+
+              child.children.map((grand) => {
+                this.thiredClassIds.push(grand.key)
+              })
+
+            }
+          })
+
         }
-      });
+        // this.arrangeList[0].level.push({
+        //   key: item.key,
+        //   text: item.text,
+        //   groupLevel: 0
+        // })
+        // if (item.children && (groupLevel === 0)) {
+        //   groupLevel += 1 
+        //   this.arrangeList.push(add)
+        //   this.arrangeList[groupLevel].level = this.addChild(item.children, groupLevel)
+        // }
+        // return
+      })
+    },
+    addChild(arr, groupLevel) {
+      return arr.map((item) => ({
+          key: item.key,
+          text: item.text,
+          groupLevel: groupLevel
+        }))
     },
     sidebarClose() {
       const target = document.querySelector('#checkbox')
@@ -130,19 +227,18 @@ export default {
       }
       return ids
     },
-    scrollInto({ currentOption, columnIndex }) {
-      console.log('##', currentOption, columnIndex )
+    onChangeTabs({ currentOption, columnIndex }) {
+      // this.currentTabKey = currentOption.key
+
+      console.log('#####, currentOption', currentOption)
+      this.activeTab = currentOption.layer + 1
+      this.selectedIndex[currentOption.layer] = currentOption.index
     },
     onConfirm({ selectedOptions }) {
       this.showPicker = false;
       let name = ''
-      console.log('###', selectedOptions)
       selectedOptions.map((item, idx) => {
-        const arrLength = selectedOptions.length - 1
-        let addSlash = idx === arrLength ? '' : '/'
-        if (item) {
-          return name += item.text + addSlash
-        } 
+        if (item) return name += item.text ? item.text + '/' : ''
       })
       this.fieldValue = name;
     }
