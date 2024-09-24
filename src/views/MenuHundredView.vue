@@ -81,12 +81,20 @@ export default {
       ACTIVE_TYPES,
       arrangeList: [],
 
-      fristClassIds: [],
-      secondClassIds: [],
-      thiredClassIds: [],
+      fristClassIds: {
+        keys: [],
+        sliceList: []
+      },
+      secondClassIds: {
+        keys: [],
+        sliceList: []
+      },
+      thiredClassIds: {
+        keys: [],
+        sliceList: []
+      },
       currentTabKey: null,
-
-      selectedIndex: [0],
+      currentGroupIdx: null,
     }
   },
   created() {
@@ -96,46 +104,25 @@ export default {
     tabs() {
       switch (true) {
         // 第一層選好，邁向第二項
-        case this.fristClassIds.includes(this.currentTabKey):
+        case this.fristClassIds.keys.includes(this.currentTabKey):
         return ['选择第一項', '选择第二項']
-        case this.secondClassIds.includes(this.currentTabKey):
+        case this.secondClassIds.keys.includes(this.currentTabKey):
         return ['选择第一項', '选择第二項', '选择第三項']
-        case this.thiredClassIds.includes(this.currentTabKey):
+        case this.thiredClassIds.keys.includes(this.currentTabKey):
         return ['选择第一項', '选择第二項', '选择第三項', '选择第四項']
         default:
         return ['选择第一項']
       }
     },
     sliceList() {
-      this.arrangeList = []
-      this.list.map((item) => {
-
-        if (this.activeTab === 0) {
-          this.arrangeList.push({
-            key: item.key,
-            text: item.text,
-          })          
-        }
-        
-        if (this.activeTab === 1 && (item.key === this.currentTabKey)) {          
-          item.children.map((child) => {
-            this.arrangeList.push({
-              key: child.key,
-              text: child.text,              
-            })
-
-            if (this.activeTab === 2 && (child.key === this.currentTabKey)) {
-              
-            }
-
-          })
-        }
-
-
-                    
-      })
-      console.log(this.arrangeList)
-      return this.arrangeList
+      switch (this.activeTab) {
+        case 1:
+          return this.secondClassIds.sliceList.filter((item) => item.groupIdx === this.currentGroupIdx)
+        case 2:
+          return this.thiredClassIds.sliceList.filter((item) => item.groupIdx === this.currentGroupIdx)
+        default:
+          return this.fristClassIds.sliceList
+      }      
     }
   },
   methods: {
@@ -149,17 +136,30 @@ export default {
     },
     handleMenu(list) {
       list.forEach((item, index) => {
-        this.fristClassIds.push(item.key);
-
+        this.fristClassIds.keys.push(item.key);
+        this.fristClassIds.sliceList.push({
+          key: item.key,
+          text: item.text,
+          groupIdx: index
+        });
         if (item.children) {
 
-          item.children.map((child) => {
-            this.secondClassIds.push(child.key)
-            
+          item.children.map((child, childIdx) => {
+            this.secondClassIds.keys.push(child.key)
+            this.secondClassIds.sliceList.push({
+              key: child.key,
+              text: child.text,
+              groupIdx: index              
+            })
             if (child.children) {
 
               child.children.map((grand) => {
-                this.thiredClassIds.push(grand.key)
+                this.thiredClassIds.keys.push(grand.key)
+                this.thiredClassIds.sliceList.push({
+                  key: grand.key,
+                  text: grand.text,
+                  groupIdx: childIdx                    
+                })
               })
 
             }
@@ -206,6 +206,8 @@ export default {
     },
     onChangeTabs({ currentOption, columnIndex }) {
       this.currentTabKey = currentOption.key
+      this.currentGroupIdx = currentOption.groupIdx
+      console.log(currentOption)
     },
     onConfirm({ selectedOptions }) {
       this.showPicker = false;
