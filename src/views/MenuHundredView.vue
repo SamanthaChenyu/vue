@@ -117,6 +117,7 @@ export default {
     sliceList() {
       switch (this.activeTab) {
         case 1:
+          console.log('?????')
           return this.secondClassIds.sliceList.filter((item) => item.groupIdx === this.currentGroupIdx)
         case 2:
           return this.thiredClassIds.sliceList.filter((item) => item.groupIdx === this.currentGroupIdx)
