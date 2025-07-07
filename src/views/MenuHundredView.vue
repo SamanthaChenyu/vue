@@ -90,7 +90,30 @@ export default {
         item.value = item.text;
         item.cities = item.children || [];
         if (item.children) {
-          this.assignCityName(item.children);
+
+          item.children.map((child, childIdx) => {
+            this.secondClassIds.keys.push(child.key)
+            this.secondClassIds.sliceList.push({
+              key: child.key,
+              text: child.text,
+              hasChildren: !!child.children,
+              groupIdx: index              
+            })
+            if (child.children) {
+
+              child.children.map((grand) => {
+                this.thiredClassIds.keys.push(grand.key)
+                this.thiredClassIds.sliceList.push({
+                  key: grand.key,
+                  text: grand.text,
+                  hasChildren: !!grand.children,
+                  groupIdx: childIdx                    
+                })
+              })
+
+            }
+          })
+
         }
       });
     },
@@ -130,8 +153,11 @@ export default {
       }
       return ids
     },
-    scrollInto({ currentOption, columnIndex }) {
-      console.log('##', currentOption, columnIndex )
+    onChangeTabs({ currentOption, columnIndex }) {
+      this.currentTabKey = currentOption.key
+      this.currentGroupIdx = currentOption.groupIdx
+      if (!currentOption.hasChildren) 
+      console.log(currentOption)
     },
     onConfirm({ selectedOptions }) {
       this.showPicker = false;
