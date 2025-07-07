@@ -1,9 +1,6 @@
 <template>
   <Header />
   <Slider />
-  <Slider />
-  <Slider />
-  <Slider />
 </template>
 
 <script>

@@ -27,7 +27,7 @@
             }
         }"
       >
-        <swiper-slide v-for="item in fetchData">
+        <swiper-slide v-for="item in fetchData" :key="item.id">
           <img src="../assets/768x432.jpg" :alt="item.name" />
         </swiper-slide>
       </swiper>
@@ -39,7 +39,6 @@
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation, Pagination, EffectCards } from 'swiper/modules'
 import * as apiService from '../services/apiService.js'
-import IconArrow from './icons/IconArrow.vue'
 import RoundButton from './Buttons/RoundButton.vue'
 import 'swiper/css'
 
@@ -47,13 +46,12 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    IconArrow,
     RoundButton
   },
   data() {
     const getData = () => {
       return apiService.get(
-        `https://data.ntpc.gov.tw/api/datasets/17168616-329b-4034-9290-2114a23ab80b/json?size=3`
+        `/api/datasets/17168616-329b-4034-9290-2114a23ab80b/json?size=3`
       )
     }
     return {

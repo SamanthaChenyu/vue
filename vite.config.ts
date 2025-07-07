@@ -10,7 +10,14 @@ const projectRootDir = resolve(__dirname);
 export default defineConfig({
   base: '/vue/',
   server:{
-    host: true    
+    host: true,
+    proxy: {
+      '/api': {
+        target: 'https://data.ntpc.gov.tw',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
   },
   plugins: [
     alias(),
